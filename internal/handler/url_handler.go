@@ -42,5 +42,5 @@ func (h *URLHandler) Redirect(c *gin.Context) {
 		return
 	}
 
-	c.Redirect(http.StatusFound, original)
+	c.Redirect(http.StatusFound, "https://"+original)
 }
