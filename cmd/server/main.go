@@ -16,6 +16,7 @@ func main() {
 	urlHandler := handler.NewURLHandler(urlService)
 
 	r.POST("/shorten", urlHandler.ShortenURL)
+	r.POST("/custom", urlHandler.CustomURL)
 	r.GET("/:code", urlHandler.Redirect)
 
 	r.Run(":8080")
