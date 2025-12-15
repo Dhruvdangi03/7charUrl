@@ -1,7 +1,7 @@
 package main
 
 import (
-	"7charUrl/internal/database"
+	"7charUrl/internal/config"
 	"7charUrl/internal/handler"
 	"7charUrl/internal/service"
 	"7charUrl/internal/store"
@@ -10,8 +10,7 @@ import (
 )
 
 func main() {
-	dbPool := db.ConnectPostgres()
-	defer dbPool.Close()
+	config.ConnectDatabase()
 	r := gin.Default()
 
 	memoryStore := store.NewMemoryStore()
