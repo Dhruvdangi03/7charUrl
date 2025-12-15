@@ -9,6 +9,8 @@ import (
 )
 
 func main() {
+	dbPool := db.ConnectPostgres()
+	defer dbPool.Close()
 	r := gin.Default()
 
 	memoryStore := store.NewMemoryStore()
