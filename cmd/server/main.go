@@ -21,5 +21,5 @@ func main() {
 	r.POST("/custom", urlHandler.CustomURL)
 	r.GET("/:code", urlHandler.Redirect)
 
-	r.Run(":8080")
+	r.Run(":8081")
 }
