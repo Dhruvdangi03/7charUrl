@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var HOSTURL string
+
 type URLHandler struct {
 	service *service.URLService
 }
@@ -21,6 +23,13 @@ func (h *URLHandler) ShortenURL(c *gin.Context) {
 		URL string `json:"url"`
 	}
 
+	scheme := "http"
+	if c.Request.TLS != nil {
+		scheme = "https"
+	}
+
+	HOSTURL = scheme + "://" + c.Request.Host
+
 	if err := c.BindJSON(&body); err != nil || body.URL == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
 		return
@@ -29,7 +38,7 @@ func (h *URLHandler) ShortenURL(c *gin.Context) {
 	short := h.service.Shorten(body.URL)
 
 	c.JSON(http.StatusOK, gin.H{
-		"short_url": "http://localhost:8080/" + short,
+		"short_url": HOSTURL + "/" + short,
 	})
 }
 
@@ -54,7 +63,7 @@ func (h *URLHandler) CustomURL(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"short_url": "http://localhost:8080/" + custom,
+		"short_url": HOSTURL + "/" + custom,
 	})
 }
 
