@@ -1,6 +1,7 @@
 package main
 
 import (
+	"7charUrl/internal/database"
 	"7charUrl/internal/handler"
 	"7charUrl/internal/service"
 	"7charUrl/internal/store"
@@ -21,5 +22,5 @@ func main() {
 	r.POST("/custom", urlHandler.CustomURL)
 	r.GET("/:code", urlHandler.Redirect)
 
-	r.Run(":8081")
+	r.Run(":8080")
 }
