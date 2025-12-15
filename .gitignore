@@ -1,0 +1,17 @@
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output folders
+bin/
+dist/
+
+# IDE/editor stuff
+.idea/
+.vscode/
+
+# Environment
+.env
