@@ -14,9 +14,21 @@ func NewURLService(s *store.MemoryStore) *URLService {
 }
 
 func (u *URLService) Shorten(original string) string {
-	short := util.GenerateShortCode(7) // 7-char short URL
-	u.store.Save(short, original)
-	return short
+	shortCode := ""
+	for true {
+		short, err := util.GenerateShortCode()
+		if err != nil {
+			return "There was an error while Generating the ShortCode" + err.Error()
+		}
+		_, ok := u.store.Get(short)
+		if !ok {
+			shortCode = short
+			break
+		}
+	}
+
+	u.store.Save(shortCode, original)
+	return shortCode
 }
 
 func (u *URLService) Custom(original string, custom string) (string, bool) {
