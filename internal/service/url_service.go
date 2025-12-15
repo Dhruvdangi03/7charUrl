@@ -6,40 +6,38 @@ import (
 )
 
 type URLService struct {
-	store *store.MemoryStore
 }
 
-func NewURLService(s *store.MemoryStore) *URLService {
-	return &URLService{store: s}
+func NewURLService() *URLService {
+	return &URLService{}
 }
 
 func (u *URLService) Shorten(original string) string {
-	shortCode := ""
-	for true {
-		short, err := util.GenerateShortCode()
-		if err != nil {
-			return "There was an error while Generating the ShortCode" + err.Error()
-		}
-		_, ok := u.store.Get(short)
-		if !ok {
-			shortCode = short
-			break
-		}
+	short, err := util.GenerateShortCode()
+	if err != nil {
+		return "There was an error while Generating the ShortCode" + err.Error()
 	}
 
-	u.store.Save(shortCode, original)
-	return shortCode
+	store.CreateURL(short, original)
+	return short
 }
 
 func (u *URLService) Custom(original string, custom string) (string, bool) {
-	_, ok := u.store.Get(custom)
-	if ok {
+	url, err := store.GetURL(custom)
+	if err != nil {
+		return "There is some error" + err.Error(), false
+	}
+	if url != nil {
 		return "Already Exist, Choose Another Url", false
 	}
-	u.store.Save(custom, original)
+	store.CreateURL(custom, original)
 	return custom, true
 }
 
 func (u *URLService) Resolve(short string) (string, bool) {
-	return u.store.Get(short)
+	url, err := store.GetURL(short)
+	if err != nil {
+		return "There is some error" + err.Error(), false
+	}
+	return url.LongURL, true
 }
