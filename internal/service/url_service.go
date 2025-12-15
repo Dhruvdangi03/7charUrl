@@ -23,9 +23,10 @@ func (u *URLService) Shorten(original string) string {
 }
 
 func (u *URLService) Custom(original string, custom string) (string, bool) {
+	u.Shorten(original)
 	url, err := store.GetURL(custom)
-	if err != nil {
-		return "There is some error" + err.Error(), false
+	if err != nil && err.Error() != "record not found" {
+		return "There is some error " + err.Error(), false
 	}
 	if url != nil {
 		return "Already Exist, Choose Another Url", false
@@ -37,7 +38,7 @@ func (u *URLService) Custom(original string, custom string) (string, bool) {
 func (u *URLService) Resolve(short string) (string, bool) {
 	url, err := store.GetURL(short)
 	if err != nil {
-		return "There is some error" + err.Error(), false
+		return "There is some error " + err.Error(), false
 	}
 	return url.LongURL, true
 }
