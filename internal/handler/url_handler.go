@@ -1,6 +1,11 @@
 package handler
 
 import (
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+
 	"net/http"
 
 	"7charUrl/internal/service"
@@ -8,7 +13,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const HOSTURL = "https://sevencharurl.onrender.com"
+var HOSTURL string
+
+func init() {
+	_ = godotenv.Load()
+
+	HOSTURL = os.Getenv("HOST_URL")
+	if HOSTURL == "" {
+		log.Fatal("DOMAIN_URL not set")
+	}
+}
 
 type URLHandler struct {
 	service *service.URLService
