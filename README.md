@@ -144,7 +144,7 @@ You can deploy this app to any server/platform that supports Go binaries (Heroku
 | Setting  | Description                                      |
 | -------- | ------------------------------------------------ |
 | `PORT`   | Port number to serve on                          |
-| `DB_URL` | Persistence database connection (if implemented) |
+| `DATABASE_URL` | Persistence database connection (if implemented) |
 
 (*Adjust based on your actual config system*)
 
